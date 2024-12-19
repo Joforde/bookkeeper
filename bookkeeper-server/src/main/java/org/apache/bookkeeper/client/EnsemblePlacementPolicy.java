@@ -40,9 +40,9 @@ import org.apache.bookkeeper.stats.StatsLogger;
 /**
  * {@link EnsemblePlacementPolicy} encapsulates the algorithm that bookkeeper client uses to select a number of bookies
  * from the cluster as an ensemble for storing entries.
- *
+ * 封装了 bookkeeper 客户端用于从集群中选择多个 bookie 作为存储条目的集合的算法。
  * <p>The algorithm is typically implemented based on the data input as well as the network topology properties.
- *
+ *该算法通常基于数据输入以及网络拓扑属性来实现。
  * <h2>How does it work?</h2>
  *
  * <p>This interface basically covers three parts:</p>
@@ -58,6 +58,9 @@ import org.apache.bookkeeper.stats.StatsLogger;
  * After the {@code EnsemblePlacementPolicy} is constructed, bookkeeper client will call
  * {@link #initialize(ClientConfiguration, Optional, HashedWheelTimer, FeatureProvider, StatsLogger,
  * BookieAddressResolver)} to initialize the placement policy.
+ *<p>集成放置策略是在构建 Bookkeeper 客户端时通过 jvm 反射构建的。构造完 {@code EnsemblePlacementPolicy} 后，
+ * Bookkeeper 客户端将调用 {@link #initialize(ClientConfiguration, Optional, HashedWheelTimer, FeatureProvider, StatsLogger,
+ * BookieAddressResolver)} 来初始化放置策略。
  *
  * <p>The {@link #initialize(ClientConfiguration, Optional, HashedWheelTimer, FeatureProvider, StatsLogger,
  * BookieAddressResolver)} method takes a few resources from bookkeeper for instantiating itself.

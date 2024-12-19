@@ -1918,6 +1918,7 @@ public class BookieShell implements Tool {
      * then make sure the ledgers stored in the bookie are properly replicated
      * and Cookie of the decommissioned bookie should be deleted from metadata
      * server.
+     * 通过重置lostBookieRecoveryDelay来触发AuditTask的命令，然后确保正确复制bookie中存储的分类帐，并且应从元数据服务器中删除已停用bookie的Cookie。
      */
     class DecommissionBookieCmd extends MyCommand {
 

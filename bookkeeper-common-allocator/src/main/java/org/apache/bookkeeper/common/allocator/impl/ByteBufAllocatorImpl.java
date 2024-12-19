@@ -178,6 +178,7 @@ public class ByteBufAllocatorImpl extends AbstractByteBufAllocator implements By
         } else {
             // Unpooled heap buffer. Force heap buffers because unpooled direct
             // buffers have very high overhead of allocation/reclaiming
+            //非池化堆缓冲区。强制堆缓冲区，因为非池化直接缓冲区具有非常高的分配回收开销
             try {
                 return unpooledAllocator.directBuffer(initialCapacity, maxCapacity);
             } catch (OutOfMemoryError e) {

@@ -246,7 +246,7 @@ public interface LedgerUnderreplicationManager extends AutoCloseable {
 
     /**
      * Receive notification asynchronously when the lostBookieRecoveryDelay value is Changed.
-     *
+     * 当lostBookieRecoveryDelay值更改时异步接收通知。
      * @param cb
      * @throws ReplicationException.UnavailableException
      */

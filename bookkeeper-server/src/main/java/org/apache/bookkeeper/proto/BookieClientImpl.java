@@ -305,7 +305,7 @@ public class BookieClientImpl implements BookieClient, PerChannelBookieClientFac
         }
 
         // Retain the buffer, since the connection could be obtained after
-        // the PendingApp might have already failed
+        // the PendingApp might have already failed 保留缓冲区，因为在 PendingApp 可能已经失败后才能获取连接
         toSend.retain();
 
         client.obtain(ChannelReadyForAddEntryCallback.create(

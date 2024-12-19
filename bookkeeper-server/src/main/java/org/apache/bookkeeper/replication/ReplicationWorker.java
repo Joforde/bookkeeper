@@ -292,12 +292,14 @@ public class ReplicationWorker implements Runnable {
      */
     private boolean rereplicate() throws InterruptedException, BKException,
             UnavailableException {
+        //获取要移动的 ledger
         long ledgerIdToReplicate = underreplicationManager
                 .getLedgerToRereplicate();
 
         Stopwatch stopwatch = Stopwatch.createStarted();
         boolean success = false;
         try {
+            //执行复制
             success = rereplicate(ledgerIdToReplicate);
         } finally {
             long latencyMillis = stopwatch.stop().elapsed(TimeUnit.MILLISECONDS);

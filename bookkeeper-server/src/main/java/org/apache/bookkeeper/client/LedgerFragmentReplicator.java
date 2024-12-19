@@ -204,6 +204,9 @@ public class LedgerFragmentReplicator {
      * then it re-replicates that batched entry fragments one by one. After
      * re-replication of all batched entry fragments, it will update the
      * ensemble info with new Bookie once
+     * 此方法复制分类账片段，该片段是存储在包含失败的博彩公司的集合中的分类账的连续部分。
+     * 它将通过将最大条目数保持为 rereplicationEntryBatchSize 的配置值来将片段拆分为多个子片段，然后将批量条目片段一一重新复制。
+     * 重新复制所有批量条目片段后，它将用新的 Bookie 更新一次集合信息
      *
      * @param lh
      *            LedgerHandle for the ledger
@@ -324,6 +327,7 @@ public class LedgerFragmentReplicator {
      * This method asynchronously recovers a specific ledger entry by reading
      * the values via the BookKeeper Client (which would read it from the other
      * replicas) and then writing it to the chosen new bookie.
+     * 此方法通过 BookKeeper 客户端读取值（将从其他副本中读取值）然后将其写入所选的新 bookie，从而异步恢复特定的账本条目。
      *
      * @param entryId
      *            Ledger Entry ID to recover.

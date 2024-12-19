@@ -355,6 +355,7 @@ public class BookKeeperAdmin implements AutoCloseable {
      * Open a ledger as an administrator without recovering the ledger. This
      * means that no digest password checks are done. Otherwise, the call is
      * identical to BookKeeper#openLedgerNoRecovery
+     * 以管理员身份打开账本，无需恢复账本。这意味着不进行摘要密码检查。否则，调用与 BookKeeper#openLedgerNoRecovery 相同
      *
      * @param lId
      *            ledger identifier
@@ -715,10 +716,12 @@ public class BookKeeperAdmin implements AutoCloseable {
      * ledgers. From this, we can open each ledger and look at the metadata to
      * determine if any of the ledger fragments for it were stored at the dead
      * input bookie.
+     * 该方法异步轮询 ZK 以获取当前的活动账本集。由此，我们可以打开每个账本并查看元数据，以确定其任何账本片段是否存储在死输入 bookie 中。
      *
      * @param bookiesSrc
      *            Source bookies that had a failure. We want to replicate the
      *            ledger fragments that were stored there.
+     *            我们想要复制存储在那里的账本碎片。
      * @param dryrun
      *            dryrun the recover procedure.
      * @param skipOpenLedgers
@@ -783,6 +786,7 @@ public class BookKeeperAdmin implements AutoCloseable {
     /**
      * This method asynchronously recovers a given ledger if any of the ledger
      * entries were stored on the failed bookie.
+     * 如果任何账本条目存储在失败的 bookie 上，则此方法会异步恢复给定的账本。
      *
      * @param bookiesSrc
      *            Source bookies that had a failure. We want to replicate the
@@ -898,7 +902,7 @@ public class BookKeeperAdmin implements AutoCloseable {
                 /*
                  * This List stores the ledger fragments to recover indexed by
                  * the start entry ID for the range. The ensembles TreeMap is
-                 * keyed off this.
+                 * keyed off this.此列表存储要恢复的分类帐片段，并按范围的起始条目 ID 进行索引。集成 TreeMap 就解决了这个问题。
                  */
                 final List<Long> ledgerFragmentsToRecover = new LinkedList<Long>();
                 /*
@@ -908,6 +912,8 @@ public class BookKeeperAdmin implements AutoCloseable {
                  * of a bookie failure, a new ensemble is created so the current
                  * ensemble should not contain the dead bookie we are trying to
                  * recover.
+                 * 该映射将存储每个分类帐片段范围的开始和结束条目 ID 值。唯一的例外是当前活动片段，因为它还没有结束。
+                 * 如果 bookie 发生故障，则会创建一个新的 ensemble，因此当前的 ensemble 不应包含我们试图恢复的死亡 bookie。
                  */
                 Map<Long, Long> ledgerFragmentsRange = new HashMap<Long, Long>();
                 Long curEntryId = null;
@@ -921,6 +927,7 @@ public class BookKeeperAdmin implements AutoCloseable {
                         /*
                          * Current ledger fragment has entries stored on the
                          * dead bookie so we'll need to recover them.
+                         * 当前的账本片段包含存储在已死亡的博彩公司上的条目，因此我们需要恢复它们。
                          */
                         ledgerFragmentsToRecover.add(entry.getKey());
                     }
@@ -954,6 +961,7 @@ public class BookKeeperAdmin implements AutoCloseable {
                 /*
                  * Now recover all of the necessary ledger fragments
                  * asynchronously using a MultiCallback for every fragment.
+                 * 使用每个片段的 MultiCallback 异步恢复所有必要的分类帐片段。
                  */
                 for (final Long startEntryId : ledgerFragmentsToRecover) {
                     Long endEntryId = ledgerFragmentsRange.get(startEntryId);
@@ -1028,6 +1036,7 @@ public class BookKeeperAdmin implements AutoCloseable {
      * This method asynchronously recovers a ledger fragment which is a
      * contiguous portion of a ledger that was stored in an ensemble that
      * included the failed bookie.
+     * 此方法异步恢复分类帐片段，该片段是存储在包含失败的 bookie 的集合中的分类帐的连续部分。
      *
      * @param lh
      *            - LedgerHandle for the ledger
@@ -1533,6 +1542,7 @@ public class BookKeeperAdmin implements AutoCloseable {
      * Trigger AuditTask by resetting lostBookieRecoveryDelay to its current
      * value. If Autorecovery is not enabled or if there is no Auditor then this
      * method will throw UnavailableException.
+     * 通过将lostBookieRecoveryDelay重置为其当前值来触发AuditTask。如果未启用自动恢复或没有 Auditor，则此方法将抛出 UnavailableException。
      *
      * @throws CompatibilityException
      * @throws KeeperException
@@ -1567,6 +1577,8 @@ public class BookKeeperAdmin implements AutoCloseable {
      * This method waits untill there are no underreplicatedledgers because of this
      * bookie. If the given Bookie is not shutdown yet, then it will throw
      * BKIllegalOpException.
+     * 通过重置lostBookieRecoveryDelay 来触发AuditTask，然后确保存储在给定停用bookie 中的分类帐已正确复制，并且不会因为给定bookie 导致复制不足。
+     * 此方法会一直等到没有由于该博彩公司而导致复制不足的账本为止。如果给定的 Bookie 尚未关闭，那么它将抛出 BKIllegalOpException。
      *
      * @param bookieAddress
      *            address of the decommissioning bookie

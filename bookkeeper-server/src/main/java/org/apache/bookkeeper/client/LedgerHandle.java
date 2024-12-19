@@ -89,6 +89,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Ledger handle contains ledger metadata and is used to access the read and
  * write operations to a ledger.
+ * 账本句柄包含账本元数据，用于访问账本的读写操作。
  */
 public class LedgerHandle implements WriteHandle {
     static final Logger LOG = LoggerFactory.getLogger(LedgerHandle.class);
@@ -1378,6 +1379,9 @@ public class LedgerHandle implements WriteHandle {
      * the hint of bookies. Consequently, in the case the ledger has been closed, it may
      * return a different value than getLastAddConfirmed, which returns the local value
      * of the ledger handle.
+     * 从法定人数的博彩公司中异步获取最后一次确认的写入。此调用获取每个博彩公司已收到的该分类帐的最后确认的添加并返回最大值。
+     * 如果账本已关闭，则此调用返回的值可能与账本最后一个条目的 id 不对应，因为它读取了 bookies 的提示。
+     * 因此，在账本已关闭的情况下，它可能返回与 getLastAddConfirmed 不同的值，后者返回账本句柄的本地值。
      *
      * @see #getLastAddConfirmed()
      *
@@ -2044,6 +2048,7 @@ public class LedgerHandle implements WriteHandle {
         // Getting current ensemble from the metadata is only a temporary
         // thing until metadata is immutable. At that point, current ensemble
         // becomes a property of the LedgerHandle itself.
+        // 在元数据不可变之前，从元数据获取当前集合只是暂时的事情。那时，当前的集合成为 LedgerHandle 本身的属性。
         return LedgerMetadataUtils.getCurrentEnsemble(versionedMetadata.getValue());
     }
 

@@ -921,7 +921,7 @@ public class BookieImpl extends BookieCriticalThread implements Bookie {
     }
 
     /**
-     * Add an entry to a ledger as specified by handle.
+     * Add an entry to a ledger as specified by handle. 按照句柄指定的方式将条目添加到分类帐。
      */
     private void addEntryInternal(LedgerDescriptor handle, ByteBuf entry,
                                   boolean ackBeforeSync, WriteCallback cb, Object ctx, byte[] masterKey)

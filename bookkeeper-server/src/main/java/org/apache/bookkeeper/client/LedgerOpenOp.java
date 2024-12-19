@@ -109,6 +109,7 @@ class LedgerOpenOp {
 
         /**
          * Asynchronously read the ledger metadata node.
+         * 异步读取账本元数据节点。
          */
         bk.getLedgerManager().readLedgerMetadata(ledgerId)
                 .thenAcceptAsync(this::openWithMetadata, bk.getScheduler().chooseThread(ledgerId))
